@@ -1,8 +1,6 @@
 <?php
+require_once __DIR__ . "/vendor/autoload.php";
 
-$connection=mysqli_connect('mysql', 'root', 'root');
-
-var_dump($_GET);
+\App\Services\Router::test();
 echo "<br>";
-echo "<pre>";
-var_dump($connection);
+var_dump($_GET);
