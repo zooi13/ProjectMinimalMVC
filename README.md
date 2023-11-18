@@ -1,0 +1,1 @@
+PHP; Docker; Nginx; MySql; MariaDB; PphMyAdmin; Composer
