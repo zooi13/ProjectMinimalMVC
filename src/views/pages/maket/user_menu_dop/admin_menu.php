@@ -5,7 +5,7 @@
         </button>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Добавить товар</a></li>
-            <li><a class="dropdown-item" href="#">Добавить категорию</a></li>
+            <li><a class="dropdown-item" href="add_categ">Добавить категорию</a></li>
         </ul>
     </div>
 </div>
