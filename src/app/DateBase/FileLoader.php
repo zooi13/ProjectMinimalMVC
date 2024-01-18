@@ -15,7 +15,7 @@ class FileLoader
             if(!move_uploaded_file($file['tmp_name'], "$pathToDirectory/$fileName")){
                 die('Ошибка загрузки файла на сервер');
             }
-            return "uploads/$fileName";
+            return "img/$fileName";
         }
         return 'ErrorLoader';
     }

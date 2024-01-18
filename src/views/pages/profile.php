@@ -1,14 +1,23 @@
 <?php
 require_once "maket/head.php";
-echo __DIR__;
-echo "<br>";
-$i = dirname(__DIR__, 2) . '/uploads/avatar_1704799850.jpg';
-echo $i;
 ?>
 <div class="container-fluid" style="max-width: 700px; margin: 30px">
-    <h3>Ваш профиль:</h3><br>
-    <img src="uploads/avatar_1704799850.jpg" alt="">
+    <h3>Профиль:</h3>
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <img src="<?=$_SESSION['user_info']['avatar']?>" alt="" style="max-width: 170px;">
+        </div>
+        <div class="p-2 bd-highlight">
+            <p><?=$_SESSION['user_info']['login']?></p>
+            <p><?=$_SESSION['user_info']['email']?></p>
+            <p>Баланс: <?=$_SESSION['user_info']['balance']?> р.</p>
+            <p>Роль: <?=$_SESSION['user_info']['role']?></p>
+        </div>
+    </div>
 </div>
-<?=$i?>
+
+
+
+
 <?php
 require_once "maket/footer.php";

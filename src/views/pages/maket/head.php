@@ -27,7 +27,7 @@
     <?php
     //Проверка на доступ и вывод доступных меню
     if (isset($_SESSION['user_info'])){
-        if($_SESSION['user_info']['role'] === 1){
+        if($_SESSION['user_info']['role'] === "admin"){
             require_once "user_menu_dop/admin_menu.php";
             require_once "user_menu_dop/user_menu.php";
         }else{
