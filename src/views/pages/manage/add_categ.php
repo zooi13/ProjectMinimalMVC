@@ -1,7 +1,7 @@
 <?php
 use App\DateBase\FormDB;
 
-if ($_SESSION['user_info']['role'] !== 'admin'){
+if (!isset($_SESSION['user_info']) || $_SESSION['user_info']['role'] !== 'admin'){
     header('Location: /home');
 }
 
@@ -19,20 +19,21 @@ require_once dirname(__DIR__, 1) . '/maket/head.php';
             <button type="submit" class="btn btn-primary">Добавить категорию</button>
         </form>
     </div>
-
-    <div class="container-fluid" style="width: 700px; margin: 30px">
-        <table class="table">
-            <thead>
-            <tr>
-                <th style="width: 50px;" scope="col">id</th>
-                <th style="width: 300px; text-align: center" scope="col">Название</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?= FormDB::outCateg(); ?>
-            </tbody>
-        </table>
-    </div>
+    <form method="post" action="/action/categ_ch">
+        <div class="container-fluid" style="width: 700px; margin: 30px">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width: 50px;" scope="col">id</th>
+                    <th style="width: 300px; text-align: center" scope="col">Название</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?= FormDB::outCateg(); ?>
+                </tbody>
+            </table>
+        </div>
+    </form>
 <?php
 require_once dirname(__DIR__, 1) . '/maket/footer.php';
