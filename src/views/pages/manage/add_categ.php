@@ -21,6 +21,7 @@ require_once dirname(__DIR__, 1) . '/maket/head.php';
     </div>
     <form method="post" action="/action/categ_ch">
         <div class="container-fluid" style="width: 700px; margin: 30px">
+            <hr>
             <table class="table">
                 <thead>
                 <tr>

@@ -4,8 +4,8 @@
             Меню администратора
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Добавить товар</a></li>
-            <li><a class="dropdown-item" href="add_categ">Добавить категорию</a></li>
+            <li><a class="dropdown-item" href="add_product">Добавить товар</a></li>
+            <li><a class="dropdown-item" href="add_categ">Категории</a></li>
         </ul>
     </div>
 </div>

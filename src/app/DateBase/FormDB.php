@@ -16,7 +16,7 @@ class FormDB
         $test_arr = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $test_arr;
     }
-    //Шаблон вывода категории
+    //Шаблон вывода категории в таблицу
     static function sampleCateg($id, $name)
     {
         echo "
@@ -28,6 +28,14 @@ class FormDB
                     <button type=\"submit\" class=\"btn btn-outline-secondary\" name=\"del\" value=\"$id\">Удалить</button>
                 </td>
             </tr>
+        ";
+    }
+
+    //Шаблон вывода категории в список
+    static function sampleCateg2($id, $name)
+    {
+        echo "
+        <option class=\"form-control\" value=\"$id\">$name</option>
         ";
     }
 
@@ -51,6 +59,13 @@ class FormDB
     {
         foreach (self::categoryV() as $index){
             self::sampleCateg($index['id_categories'], $index['category_name']);
+        }
+    }
+
+    static function outCateg2()
+    {
+        foreach (self::categoryV() as $index){
+            self::sampleCateg2($index['id_categories'], $index['category_name']);
         }
     }
 }

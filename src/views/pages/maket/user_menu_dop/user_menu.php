@@ -7,7 +7,7 @@
             <li><a class="dropdown-item" href="/profile">Профиль</a></li>
             <li><a class="dropdown-item" href="#">История покупок</a></li>
             <li><a class="dropdown-item" href="#">Корзина</a></li>
-            <li class="dropdown-item">Баланс: <?=$_SESSION['user_info']['balance']?> р.</li>
+            <li class="dropdown-item">Баланс: <?=$_SESSION['user_info']['balance']?> ₽</li>
             <hr>
             <li><a class="dropdown-item" href="/action/out_act">Выйти</a></li>
         </ul>
