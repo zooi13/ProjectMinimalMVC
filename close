@@ -1,0 +1,383 @@
+[33mcommit 07bdac533f6d10abd9ac374ce57ec3caa3aaff0d[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: zooi13 <alexsey.zuev.dev@gmail.com>
+Date:   Wed Jan 24 12:30:41 2024 +0300
+
+    ProductAdd
+
+[1mdiff --git a/docker/nginx/conf.d/default.conf b/docker/nginx/conf.d/default.conf[m
+[1mindex 6a54cae..a369d6d 100644[m
+[1m--- a/docker/nginx/conf.d/default.conf[m
+[1m+++ b/docker/nginx/conf.d/default.conf[m
+[36m@@ -43,9 +43,11 @@[m [mserver {[m
+     #}[m
+ [m
+     location ~ ^/img/(?<file>.+)$ {[m
+[31m-        alias /var/www/html/uploads/$file;[m
+[32m+[m[32m            alias /var/www/html/uploads/$file;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    location ~ ^/prod/(?<file>.+)$ {[m
+[32m+[m[32m            alias /var/www/html/uploads/products/$file;[m
+     }[m
+[31m-    [m
+ [m
+ [m
+     # deny access to .htaccess files, if Apache's document root[m
+[1mdiff --git a/src/app/DateBase/FileLoader.php b/src/app/DateBase/FileLoader.php[m
+[1mindex 035ed51..aabeca9 100644[m
+[1m--- a/src/app/DateBase/FileLoader.php[m
+[1m+++ b/src/app/DateBase/FileLoader.php[m
+[36m@@ -19,4 +19,19 @@[m [mclass FileLoader[m
+         }[m
+         return 'ErrorLoader';[m
+     }[m
+[32m+[m[32m    //функция загрузки файлов[m
+[32m+[m[32m    static function FileLoader($file, $pathToDirectory, $prefix) : string[m
+[32m+[m[32m    {[m
+[32m+[m[32m        if (!is_dir($pathToDirectory)){[m
+[32m+[m[32m            echo 'Каталог для файла не найден';[m
+[32m+[m[32m        }else{[m
+[32m+[m[32m            $ext = (pathinfo($file['name'], PATHINFO_EXTENSION));[m
+[32m+[m[32m            $fileName = $prefix . '_' . time() . ".$ext";[m
+[32m+[m[32m            if(!move_uploaded_file($file['tmp_name'], "$pathToDirectory/$fileName")){[m
+[32m+[m[32m                die('Ошибка загрузки файла на сервер');[m
+[32m+[m[32m            }[m
+[32m+[m[32m            return "prod/$fileName";[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return 'ErrorLoader';[m
+[32m+[m[32m    }[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/src/router/routes.php b/src/router/routes.php[m
+[1mindex 9e31e5d..fff648c 100644[m
+[1m--- a/src/router/routes.php[m
+[1m+++ b/src/router/routes.php[m
+[36m@@ -7,6 +7,7 @@[m [mRouter::page('/home', 'home');[m
+ Router::page('/login', 'login');[m
+ Router::page('/register', 'register');[m
+ Router::page('/profile', 'profile');[m
+[32m+[m[32mRouter::page('/catalog', 'catalog');[m
+ Router::page('/add_categ', 'manage/add_categ');[m
+ Router::page('/edit_categ', 'manage/edit_categ');[m
+ Router::page('/add_product', 'manage/add_product');[m
+[1mdiff --git a/src/uploads/product_1705873065.jpg b/src/uploads/product_1705873065.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705873065.jpg differ
+[1mdiff --git a/src/uploads/product_1705873266.jpg b/src/uploads/product_1705873266.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705873266.jpg differ
+[1mdiff --git a/src/uploads/product_1705874472.jpg b/src/uploads/product_1705874472.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8c41d3d[m
+Binary files /dev/null and b/src/uploads/product_1705874472.jpg differ
+[1mdiff --git a/src/uploads/product_1705874562.jpg b/src/uploads/product_1705874562.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705874562.jpg differ
+[1mdiff --git a/src/uploads/product_1705874657.jpg b/src/uploads/product_1705874657.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705874657.jpg differ
+[1mdiff --git a/src/uploads/product_1705874737.jpg b/src/uploads/product_1705874737.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705874737.jpg differ
+[1mdiff --git a/src/uploads/product_1705874878.jpg b/src/uploads/product_1705874878.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8c41d3d[m
+Binary files /dev/null and b/src/uploads/product_1705874878.jpg differ
+[1mdiff --git a/src/uploads/product_1705874934.jpg b/src/uploads/product_1705874934.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705874934.jpg differ
+[1mdiff --git a/src/uploads/product_1705875132.jpg b/src/uploads/product_1705875132.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8c41d3d[m
+Binary files /dev/null and b/src/uploads/product_1705875132.jpg differ
+[1mdiff --git a/src/uploads/product_1705875304.jpg b/src/uploads/product_1705875304.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..dcb045a[m
+Binary files /dev/null and b/src/uploads/product_1705875304.jpg differ
+[1mdiff --git a/src/uploads/product_1705875578.jpg b/src/uploads/product_1705875578.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705875578.jpg differ
+[1mdiff --git a/src/uploads/product_1705875707.jpg b/src/uploads/product_1705875707.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705875707.jpg differ
+[1mdiff --git a/src/uploads/product_1705875741.jpg b/src/uploads/product_1705875741.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705875741.jpg differ
+[1mdiff --git a/src/uploads/product_1705875756.jpg b/src/uploads/product_1705875756.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1705875756.jpg differ
+[1mdiff --git a/src/uploads/product_1706087791.jpg b/src/uploads/product_1706087791.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1706087791.jpg differ
+[1mdiff --git a/src/uploads/product_1706087965.jpg b/src/uploads/product_1706087965.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1706087965.jpg differ
+[1mdiff --git a/src/uploads/product_1706088423.jpg b/src/uploads/product_1706088423.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1706088423.jpg differ
+[1mdiff --git a/src/uploads/product_1706088538.jpg b/src/uploads/product_1706088538.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1706088538.jpg differ
+[1mdiff --git a/src/uploads/product_1706088574.jpg b/src/uploads/product_1706088574.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..fc3b855[m
+Binary files /dev/null and b/src/uploads/product_1706088574.jpg differ
+[1mdiff --git a/src/uploads/products/product_1705873065. b/src/uploads/products/product_1705873065.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705873065.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705873266. b/src/uploads/products/product_1705873266.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705873266.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705874472. b/src/uploads/products/product_1705874472.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705874472.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705874562. b/src/uploads/products/product_1705874562.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705874562.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705874657. b/src/uploads/products/product_1705874657.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705874657.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705874737. b/src/uploads/products/product_1705874737.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705874737.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705874878. b/src/uploads/products/product_1705874878.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d606037[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705874878.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest2[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705874934. b/src/uploads/products/product_1705874934.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705874934.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705875132. b/src/uploads/products/product_1705875132.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d606037[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705875132.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest2[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705875304. b/src/uploads/products/product_1705875304.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705875304.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705875578. b/src/uploads/products/product_1705875578.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705875578.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705875707. b/src/uploads/products/product_1705875707.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705875707.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705875741. b/src/uploads/products/product_1705875741.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1705875741.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1705875756.jpg b/src/uploads/products/product_1705875756.jpg[m
+[1mnew file mode 100644[m
+[1mindex 0000000..8c41d3d[m
+Binary files /dev/null and b/src/uploads/products/product_1705875756.jpg differ
+[1mdiff --git a/src/uploads/products/product_1706087791. b/src/uploads/products/product_1706087791.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1706087791.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1706087965. b/src/uploads/products/product_1706087965.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d606037[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1706087965.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest2[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1706088423. b/src/uploads/products/product_1706088423.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..f079749[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1706088423.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest1[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1706088538. b/src/uploads/products/product_1706088538.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d606037[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1706088538.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest2[m
+\ No newline at end of file[m
+[1mdiff --git a/src/uploads/products/product_1706088574. b/src/uploads/products/product_1706088574.[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d606037[m
+[1m--- /dev/null[m
+[1m+++ b/src/uploads/products/product_1706088574.[m
+[36m@@ -0,0 +1 @@[m
+[32m+[m[32mtest2[m
+\ No newline at end of file[m
+[1mdiff --git a/src/views/pages/action/add_product_act.php b/src/views/pages/action/add_product_act.php[m
+[1mindex 145b20f..7e8bcf3 100644[m
+[1m--- a/src/views/pages/action/add_product_act.php[m
+[1m+++ b/src/views/pages/action/add_product_act.php[m
+[36m@@ -2,19 +2,44 @@[m
+ use App\DateBase\ServiceDB;[m
+ use App\DateBase\FileLoader;[m
+ [m
+[31m-echo "<pre>";[m
+[31m-var_dump($_POST);[m
+[31m-[m
+ $NameProduct = $_POST['NameProduct'];[m
+ $CategProduct = $_POST['CategProduct'];[m
+ $PriceProduct = $_POST['PriceProduct'];[m
+ $AreaProduct = $_POST['AreaProduct'];[m
+[32m+[m[32m$TimeProduct = time();[m
+ [m
+ $ImageProduct = $_FILES['FileImage'] ?? null;[m
+ $FileProduct = $_FILES['ProductFile'] ?? null;[m
+ [m
+ [m
+[31m-$uploadPath = dirname(__DIR__, 3) . '/uploads';[m
+[31m-$path_product = FileLoader::ImageLoader($ImageProduct,$uploadPath,'product');[m
+[32m+[m[32m$uploadPathImage = dirname(__DIR__, 3) . '/uploads';[m
+[32m+[m[32m$uploadPathProduct = dirname(__DIR__, 3) . '/uploads/products';[m
+[32m+[m
+[32m+[m[32m$pathProductImage = FileLoader::ImageLoader($ImageProduct,$uploadPathImage,'product');[m
+[32m+[m[32m$pathProductFile = FileLoader::FileLoader($FileProduct,$uploadPathProduct,'product');[m
+[32m+[m
+[32m+[m
+[32m+[m[32m$pdo = ServiceDB::getPDO();[m
+[32m+[m
+[32m+[m
+[32m+[m[32m$query = "INSERT INTO products (name_product, categ_product, img_product, file_product, price_product, description_product, date_product) VALUES (:name_product, :categ_product, :img_product, :file_product, :price_product, :description_product, :date_product)";[m
+[32m+[m[32m$params = [[m
+[32m+[m
+[32m+[m[32m    'name_product' => $NameProduct,[m
+[32m+[m[32m    'categ_product' => $CategProduct,[m
+[32m+[m[32m    'img_product' => $pathProductImage,[m
+[32m+[m[32m    'file_product' => $pathProductFile,[m
+[32m+[m[32m    'price_product' => $PriceProduct,[m
+[32m+[m[32m    'description_product' => $AreaProduct,[m
+[32m+[m[32m    'date_product' => $TimeProduct[m
+[32m+[m[32m];[m
+[32m+[m[32m$stmt = $pdo->prepare($query);[m
+[32m+[m[32mtry {[m
+[32m+[m[32m    $stmt->execute($params);[m
+[32m+[m[32m}catch (\PDOException $e){[m
+[32m+[m[32m    echo "Ошибка добавления товара";[m
+[32m+[m[32m    echo "<pre>";[m
+[32m+[m[32m    var_dump($e);[m
+[32m+[m[32m}[m
+ [m
+[31m-echo $path_product;[m
+\ No newline at end of file[m
+[32m+[m[32mheader('Location: /catalog');[m
+\ No newline at end of file[m
+[1mdiff --git a/src/views/pages/catalog.php b/src/views/pages/catalog.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..30bda65[m
+[1m--- /dev/null[m
+[1m+++ b/src/views/pages/catalog.php[m
+[36m@@ -0,0 +1,21 @@[m
+[32m+[m[32m<?php[m
+[32m+[m[32mrequire_once "maket/head.php";[m
+[32m+[m[32m?>[m
+[32m+[m
+[32m+[m[32m<div class="card mb-3" style="max-width: 540px;">[m
+[32m+[m[32m    <div class="row g-0">[m
+[32m+[m[32m        <div class="col-md-4">[m
+[32m+[m[32m            <img src="..." class="img-fluid rounded-start" alt="...">[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m        <div class="col-md-8">[m
+[32m+[m[32m            <div class="card-body">[m
+[32m+[m[32m                <h5 class="card-title">Заголовок карточки</h5>[m
+[32m+[m[32m                <p class="card-text">Это более широкая карта с вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>[m
+[32m+[m[32m                <p class="card-text"><small class="text-muted">Последнее обновление 3 мин. назад</small></p>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m        </div>[m
+[32m+[m[32m    </div>[m
+[32m+[m[32m</div>[m
+[32m+[m
+[32m+[m[32m<?php[m
+[32m+[m[32mrequire_once "maket/footer.php";[m
+\ No newline at end of file[m
+[1mdiff --git a/src/views/pages/maket/head.php b/src/views/pages/maket/head.php[m
+[1mindex 171f436..2b4e2f1 100644[m
+[1m--- a/src/views/pages/maket/head.php[m
+[1m+++ b/src/views/pages/maket/head.php[m
+[36m@@ -20,7 +20,7 @@[m
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">[m
+         <ul class="navbar-nav mr-auto">[m
+             <li class="nav-item">[m
+[31m-                <a class="nav-link" href="#">Каталог</a>[m
+[32m+[m[32m                <a class="nav-link" href="/catalog">Каталог</a>[m
+             </li>[m
+         </ul>[m
+     </div>[m

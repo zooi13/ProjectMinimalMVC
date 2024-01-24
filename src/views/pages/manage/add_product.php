@@ -48,7 +48,7 @@ require_once dirname(__DIR__, 1) . '/maket/head.php';
                 <textarea class="form-control"  id="AreaProduct" name="AreaProduct"  aria-label="With textarea"></textarea>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Добавить категорию</button>
+            <button type="submit" class="btn btn-primary">Добавить товар</button>
         </form>
     </div>
 <?php
