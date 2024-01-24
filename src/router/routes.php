@@ -7,6 +7,7 @@ Router::page('/home', 'home');
 Router::page('/login', 'login');
 Router::page('/register', 'register');
 Router::page('/profile', 'profile');
+Router::page('/catalog', 'catalog');
 Router::page('/add_categ', 'manage/add_categ');
 Router::page('/edit_categ', 'manage/edit_categ');
 Router::page('/add_product', 'manage/add_product');

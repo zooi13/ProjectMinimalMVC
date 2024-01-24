@@ -19,4 +19,19 @@ class FileLoader
         }
         return 'ErrorLoader';
     }
+    //функция загрузки файлов
+    static function FileLoader($file, $pathToDirectory, $prefix) : string
+    {
+        if (!is_dir($pathToDirectory)){
+            echo 'Каталог для файла не найден';
+        }else{
+            $ext = (pathinfo($file['name'], PATHINFO_EXTENSION));
+            $fileName = $prefix . '_' . time() . ".$ext";
+            if(!move_uploaded_file($file['tmp_name'], "$pathToDirectory/$fileName")){
+                die('Ошибка загрузки файла на сервер');
+            }
+            return "prod/$fileName";
+        }
+        return 'ErrorLoader';
+    }
 }
